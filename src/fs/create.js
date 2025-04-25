@@ -12,7 +12,7 @@ const create = async (filePath, str) => {
     await fs.writeFile(filePath, str, { flag: 'wx' });
     console.log('File is created!');
   } catch (error) {
-    console.log(error);
+    console.error('FS operation failed', error);
   }
 };
 
