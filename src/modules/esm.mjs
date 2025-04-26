@@ -4,7 +4,6 @@ import { createServer as createServerHttp } from 'http';
 import './files/c.cjs';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
-import fs from 'node:fs/promises';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -12,14 +11,13 @@ const __dirname = path.dirname(__filename);
 const random = Math.random();
 
 let unknownObject;
+
 if (random > 0.5) {
-  unknownObject = JSON.parse(
-    await fs.readFile(path.join(__dirname, 'files', 'a.json'))
-  );
+  unknownObject = (await import('./files/a.json', { with: { type: 'json' } }))
+    .default;
 } else {
-  unknownObject = JSON.parse(
-    await fs.readFile(path.join(__dirname, 'files', 'b.json'))
-  );
+  unknownObject = (await import('./files/b.json', { with: { type: 'json' } }))
+    .default;
 }
 
 console.log(`Release ${release()}`);
