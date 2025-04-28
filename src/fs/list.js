@@ -1,9 +1,9 @@
-import fs from 'node:fs/promises';
-import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import fs from "node:fs/promises";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const filesFolder = path.join(__dirname, 'files');
+const filesFolder = path.join(__dirname, "files");
 
 const list = async () => {
   try {
@@ -18,8 +18,8 @@ const list = async () => {
         console.log(fileName);
       }
     }
-  } catch (error) {
-    console.error('FS operation failed', error);
+  } catch {
+    throw new Error("FS operation failed");
   }
 };
 
