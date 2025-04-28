@@ -25,6 +25,19 @@ const performCalculations = async () => {
 
     resultPromises.push(promise);
   }
+  resultPromises.push(
+    new Promise((resolve, reject) => {
+      const worker = new Worker(filePath, { workerData: 'abc' });
+
+      worker.on('message', (result) => {
+        resolve(result);
+      });
+
+      worker.on('error', (err) => {
+        reject(err);
+      });
+    })
+  );
 
   const results = await Promise.all(resultPromises);
   console.log('Results:', results);
