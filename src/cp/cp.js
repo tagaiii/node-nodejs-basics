@@ -1,6 +1,18 @@
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { fork } from 'node:child_process';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const filePath = path.join(__dirname, 'files', 'script.js');
+
 const spawnChildProcess = async (args) => {
-    // Write your code here
+  const child = fork(filePath, args);
+
+  child.on('close', (code) => {
+    console.log(`Child process exit code: ${code}`);
+    console.log('Killing master process...');
+    process.exit(0);
+  });
 };
 
-// Put your arguments in function call to test this functionality
-spawnChildProcess( /* [someArgument1, someArgument2, ...] */);
+spawnChildProcess([1, 2, 3]);
